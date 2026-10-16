@@ -1,0 +1,10 @@
+[Unit]
+Description=HyprLearn Micro-Learning Notification Timer
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=45min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

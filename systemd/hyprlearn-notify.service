@@ -1,0 +1,12 @@
+[Unit]
+Description=HyprLearn Micro-Learning Notification Trigger
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 -m hyprlearn.cli notify
+WorkingDirectory=%h/Área de trabalho/Projetos/hyprland-shortcuts
+Environment=PYTHONPATH=%h/Área de trabalho/Projetos/hyprland-shortcuts
+
+[Install]
+WantedBy=default.target

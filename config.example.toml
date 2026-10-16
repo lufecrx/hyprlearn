@@ -1,0 +1,22 @@
+# Configuração do HyprLearn
+# Salve uma cópia em ~/.config/hyprlearn/config.toml
+
+[general]
+# Caminho para o arquivo binds.lua (se omitido, busca em ~/.config/hypr/config/binds.lua)
+binds_path = "~/.config/hypr/config/binds.lua"
+# Caminho para variáveis (para resolver TERMINAL, BROWSER, etc.)
+variables_path = "~/.config/hypr/config/variables.lua"
+
+[micro_learning]
+# Intervalo padrão em minutos entre notificações passivas
+interval_minutes = 45
+# Pausar notificações se uma janela estiver em fullscreen (ex: jogos, vídeos)
+pause_on_fullscreen = true
+# Categoria ou tag prioritária para aprendizado (deixe vazio para todas)
+focus_category = ""
+
+[hud]
+# Estilo padrão do HUD: "rich" (tabela estilizada/painéis) ou "fzf" (busca interativa imediata)
+default_mode = "fzf"
+# Opção ao pressionar Enter no FZF: "copy" (copia tecla com wl-copy) ou "exec" (executa a ação)
+fzf_action = "copy"
