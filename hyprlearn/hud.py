@@ -144,32 +144,49 @@ class HUD:
             except Exception:
                 pass
 
-    def render_rich_table(self, category_filter: Optional[str] = None) -> None:
-        """Renderiza uma tabela estilizada com cores no terminal."""
+    def render_rich_table(self, category_filter: Optional[str] = None, use_pager: bool = True) -> None:
+        """Renderiza uma tabela estilizada com cores no terminal, usando pager interativo se em janela dedicada."""
+        import sys
         categories = sorted(list({s.category for s in self.shortcuts}))
 
         if category_filter:
             categories = [c for c in categories if c.lower() == category_filter.lower()]
 
-        for cat in categories:
-            table = Table(title=f"📌 {cat}", show_header=True, header_style="bold magenta", expand=True)
-            table.add_column("Combinação de Teclas", style="bold cyan", no_wrap=True, width=32)
-            table.add_column("Ação / Descrição", style="white")
-            table.add_column("Subcategoria", style="dim", width=24)
+        def _do_render():
+            for cat in categories:
+                table = Table(title=f"📌 {cat}", show_header=True, header_style="bold magenta", expand=True)
+                table.add_column("Combinação de Teclas", style="bold cyan", no_wrap=True, width=32)
+                table.add_column("Ação / Descrição", style="white")
+                table.add_column("Subcategoria", style="dim", width=24)
 
-            cat_shortcuts = [s for s in self.shortcuts if s.category == cat]
-            for s in cat_shortcuts:
-                table.add_row(s.combo, s.description, s.sub_category)
+                cat_shortcuts = [s for s in self.shortcuts if s.category == cat]
+                for s in cat_shortcuts:
+                    table.add_row(s.combo, s.description, s.sub_category)
 
-            self.console.print(table)
-            self.console.print()
+                self.console.print(table)
+                self.console.print()
 
-        if self.learner:
-            summary = self.learner.get_progress_summary()
-            stats_text = (
-                f"[bold green]Total de Atalhos:[/bold green] {summary['total_shortcuts']} | "
-                f"[bold yellow]Visualizados:[/bold yellow] {summary['seen_shortcuts']} | "
-                f"[bold blue]Dominados:[/bold blue] {summary['mastered']} | "
-                f"[bold magenta]Maestria Geral:[/bold magenta] {summary['mastery_percentage']}%"
-            )
-            self.console.print(Panel(stats_text, title="🎯 Estatísticas de Memorização", border_style="green"))
+            if self.learner:
+                summary = self.learner.get_progress_summary()
+                stats_text = (
+                    f"[bold green]Total de Atalhos:[/bold green] {summary['total_shortcuts']} | "
+                    f"[bold yellow]Visualizados:[/bold yellow] {summary['seen_shortcuts']} | "
+                    f"[bold blue]Dominados:[/bold blue] {summary['mastered']} | "
+                    f"[bold magenta]Maestria Geral:[/bold magenta] {summary['mastery_percentage']}%\n"
+                    f"[dim]Pressione 'q' para sair ou use as setas para rolar[/dim]"
+                )
+                self.console.print(Panel(stats_text, title="🎯 Estatísticas de Memorização", border_style="green"))
+
+        if use_pager and sys.stdout.isatty():
+            try:
+                with self.console.pager(styles=True):
+                    _do_render()
+            except Exception:
+                _do_render()
+                try:
+                    self.console.input("\n[dim]Pressione Enter para fechar...[/dim]")
+                except Exception:
+                    pass
+        else:
+            _do_render()
+

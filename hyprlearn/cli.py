@@ -105,7 +105,8 @@ def main() -> None:
 
     elif args.command == "stats":
         hud = HUD(shortcuts=shortcuts, learner=learner)
-        hud.render_rich_table()
+        hud.render_rich_table(use_pager=False)
+
 
     elif args.command == "parse":
         console.print(f"[bold green]Encontrados {len(shortcuts)} atalhos em binds.lua:[/bold green]\n")
