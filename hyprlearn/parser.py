@@ -181,12 +181,15 @@ class HyprLuaParser:
             return "Abrir / Ocultar Scratchpad (janelas especiais)"
 
         # Lançadores de Aplicativos e Utilitários
+        if ("hyprlearn" in act or "hyprlearnBin" in act) and "fzf" in act:
+            return "Abrir menu FZF do HyprLearn no terminal (Busca rápida e cópia)"
         if ("hyprlearn" in act or "hyprlearnBin" in act) and "rich" in act:
             return "Abrir Cheatsheet do HyprLearn (Tabela completa e estatísticas)"
         if ("hyprlearn" in act or "hyprlearnBin" in act) and "hud" in act:
-            return "Abrir HUD interativo do HyprLearn (Busca rápida e cópia)"
+            return "Abrir menu rápido do HyprLearn (Noctalia)"
         if ("hyprlearn" in act or "hyprlearnBin" in act) and "tip" in act:
             return "Exibir dica do HyprLearn"
+
         if "TERMINAL" in act and "btop" in act:
             return "Abrir monitor de sistema (Btop)"
         if "TERMINAL" in act:

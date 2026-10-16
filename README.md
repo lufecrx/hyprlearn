@@ -37,9 +37,10 @@ local hyprlearnBin = (os.getenv("HOME") or "/home/luiz") .. "/.local/bin/hyprlea
 hl.bind(mainMod .. " + slash",         hl.dsp.exec_cmd(launchPrefix .. hyprlearnBin .. " hud"))
 hl.bind(mainMod .. " + F1",            hl.dsp.exec_cmd(launchPrefix .. hyprlearnBin .. " hud"))
 
--- SUPER + Shift + /: Tabela completa com estatísticas em janela flutuante
-hl.bind(mainMod .. " + SHIFT + slash", hl.dsp.exec_cmd(launchPrefix .. TERMINAL .. " --class hyprlearn-hud -e " .. hyprlearnBin .. " hud --rich"))
+-- SUPER + Shift + /: Menu interativo FZF no terminal flutuante
+hl.bind(mainMod .. " + SHIFT + slash", hl.dsp.exec_cmd(launchPrefix .. TERMINAL .. " --class hyprlearn-hud -e " .. hyprlearnBin .. " hud --fzf"))
 ```
+
 
 Depois de editar, recarregue o Hyprland:
 ```bash
